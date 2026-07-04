@@ -1,4 +1,4 @@
-"""
+
 Movie Rating Prediction — IMDb Movies India Dataset
 =====================================================
 Dataset  : IMDb Movies India (15,509 movies)
@@ -6,7 +6,7 @@ Features : Genre, Director, Actors, Duration, Year, Votes
 Target   : IMDb Rating (1–10)
 Models   : Linear Regression, Ridge, Decision Tree,
            Random Forest, Gradient Boosting
-"""
+
 
 import zipfile
 import os
@@ -27,10 +27,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# ─────────────────────────────────────────────
-# STEP 1 — LOAD DATA
-# Extract zip and read the CSV file
-# ─────────────────────────────────────────────
+
 if not os.path.exists('data/IMDb Movies India.csv'):
     with zipfile.ZipFile('archive (3).zip', 'r') as z:
         z.extractall('data/')
@@ -47,10 +44,7 @@ print(f"  Total Columns : {df.shape[1]}")
 print(f"  Columns       : {list(df.columns)}")
 print(f"\n  Missing Values:\n{df.isnull().sum()}")
 
-# ─────────────────────────────────────────────
-# STEP 2 — DATA CLEANING & PREPROCESSING
-# Fix data types and handle missing values
-# ─────────────────────────────────────────────
+
 
 # Year column has values like "(2019)" — extract just the number
 df['Year'] = df['Year'].str.extract(r'(\d{4})').astype(float)
@@ -81,11 +75,7 @@ df['Votes']    = df['Votes'].fillna(df['Votes'].median())
 
 print(f"\n  Rating Statistics:\n{df['Rating'].describe().round(2)}")
 
-# ─────────────────────────────────────────────
-# STEP 3 — FEATURE ENGINEERING
-# Convert text/categorical data into numbers
-# so the ML model can understand it
-# ─────────────────────────────────────────────
+
 
 # Label Encoding — converts each unique category to a number
 # e.g. "Drama" → 2, "Comedy" → 1, "Action" → 0
@@ -133,10 +123,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"\n  Training Samples : {len(X_train)}")
 print(f"  Testing  Samples : {len(X_test)}")
 
-# ─────────────────────────────────────────────
-# STEP 4 — MODEL TRAINING & EVALUATION
-# Train 5 different models and compare them
-# ─────────────────────────────────────────────
+#
 
 # 5 models — from simple to complex
 models = {
@@ -191,9 +178,7 @@ print(f"  ✅  Best R² Score : {results[best_name]['R2']:.4f}")
 cv = cross_val_score(best_model, X, y, cv=5, scoring='r2')
 print(f"  ✅  Cross-Val R²  : {cv.mean():.4f} ± {cv.std():.4f}")
 
-# ─────────────────────────────────────────────
-# STEP 5 — VISUALISATIONS (10 panels)
-# ─────────────────────────────────────────────
+
 plt.style.use('seaborn-v0_8-whitegrid')
 PALETTE = ['#2D6A9F', '#E07B39', '#3A9E64', '#C0392B', '#8E44AD']
 
@@ -348,10 +333,8 @@ plt.savefig('movie_rating_analysis.png',
 plt.close()
 print("\n  📊  Visualisation saved as movie_rating_analysis.png")
 
-# ─────────────────────────────────────────────
-# STEP 6 — SAMPLE PREDICTIONS
-# Test the model on famous Bollywood movies
-# ─────────────────────────────────────────────
+
+
 print("\n" + "=" * 65)
 print("  SAMPLE PREDICTIONS — POPULAR BOLLYWOOD MOVIES")
 print("=" * 65)
